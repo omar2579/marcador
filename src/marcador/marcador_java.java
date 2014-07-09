@@ -85,12 +85,14 @@ public class marcador_java extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         point(1);
-        score();
+        String puntos=score();
+        jLabel1.setText(puntos);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         point(2);
-        score();
+        String puntos=score();
+        jLabel1.setText(puntos);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -140,31 +142,33 @@ public class marcador_java extends javax.swing.JFrame {
                 
         }
     }
-    public void score(){
+    public String score(){
         if(player1==2 && player2 == 2){
-            jLabel1.setText(puntos[player1]+" - ALL");
+            return puntos[player1]+" - ALL";
         }
         if(player1==3 && player2 == 3){
-            jLabel1.setText("DOUCE");
+            return "DOUCE";
         }
         if(player1==4 && player2 == 3){
-            jLabel1.setText(puntos[player1]+" PLAYER 1");
+            return puntos[player1]+" PLAYER 1";
         }
         if(player1==3 && player2 == 4){
-            jLabel1.setText(puntos[player2]+" PLAYER 2");
+            return puntos[player2]+" PLAYER 2";
         }
         if(player1==4 && player2 == 4){
             player1=3;player2=3;
-            jLabel1.setText("DOUCE");
+            return "DOUCE";
         }
         if(player1==5){
             player1=0;player2=0;
-             jLabel1.setText("PLAYER 1 WINS");
+             return "PLAYER 1 WINS";
         }
         if(player2==5){
             player1=0;player2=0;
-             jLabel1.setText("PLAYER 2 WINS");
+             return "PLAYER 2 WINS";
         }
+        else
+            return puntos[player1]+" - "+puntos[player2];
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

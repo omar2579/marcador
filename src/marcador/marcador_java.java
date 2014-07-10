@@ -31,15 +31,16 @@ public class marcador_java extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(score());
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("Player 1");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -49,6 +50,7 @@ public class marcador_java extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setText("Player 2");
         jButton2.setActionCommand("player 2");
+        jButton2.setEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -63,6 +65,13 @@ public class marcador_java extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "English", "Español", "français" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -70,6 +79,8 @@ public class marcador_java extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(72, 72, 72))
@@ -89,7 +100,8 @@ public class marcador_java extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addGap(31, 31, 31)
@@ -102,32 +114,45 @@ public class marcador_java extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         point(1);
-        String puntos=score();
-        jLabel1.setText(puntos);
+        jLabel1.setText(score());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         point(2);
-        String puntos=score();
-        jLabel1.setText(puntos);
+        jLabel1.setText(score());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         player1=0;
         player2=0;
         jLabel1.setText(score());
+        //jLabel1.setText(español.getDeuce());
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        if(jComboBox1.getSelectedIndex()==0)
+            idioma = new English();
+        if(jComboBox1.getSelectedIndex()==1)
+            idioma = new Espanol();
+        if(jComboBox1.getSelectedIndex()==2)
+            idioma = new Francais();
+        jLabel1.setText(score());
+        jButton2.setEnabled(true);
+        jButton1.setEnabled(true);
+        //jComboBox1.setEnabled(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
-    String puntos[]={/*"LOVE","FIFTEEN","THIRTY","FOURTY","ADVANTAGE  PLAYER",*/"CERO","QUINCE","TREINTA","CUARENTA","VENTAJA JUGADOR","GANA JUGADOR"};
+    //String puntos[]={/*"LOVE","FIFTEEN","THIRTY","FOURTY","ADVANTAGE  PLAYER",*/"CERO","QUINCE","TREINTA","CUARENTA","VENTAJA JUGADOR","GANA JUGADOR"};
     int player1=0,player2=0;
-    
+    Idioma idioma;
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -170,40 +195,49 @@ public class marcador_java extends javax.swing.JFrame {
     }
     public String score(){
         if(player1<3 && player1==player2){
-            return puntos[player1]+" - IGUALES";
+            //return puntos[player1]+" - IGUALES";
+            return idioma.getPuntos(player1)+" - "+idioma.getAll();
         }
         if(player1>2 && player1==player2){ //40-40 VETAJA - VETAJA
             player1=3;player2=3;
-            return "EMPATE";
+            //return "EMPATE";
+            return idioma.getDeuce();
         }
         if(player1==4 && player2 == 3){
-            return puntos[player1]+" 1"; //VENTAJA JUGADOR
+            //return puntos[player1]+" 1"; //VENTAJA JUGADOR
+            return idioma.getAdvantage()+" 1";
         }
         if(player1==3 && player2 == 4){
-            return puntos[player2]+" 2"; //VENTAJA JUGADOR
+            //return puntos[player2]+" 2"; //VENTAJA JUGADOR
+            return idioma.getAdvantage()+" 2";
         }
         if(player1==5 || player1==4 && player2 <3){ //GANA JUGADOR
             player1=0;player2=0;
             jButton1.setEnabled(false);
             jButton2.setEnabled(false);
             jButton3.setVisible(true);
-             return puntos[5]+"1";
+             //return puntos[5]+"1";
+            return idioma.getWin()+" 1";
         }
         if(player2==5 || player1<3 && player2 ==4){ //GANA JUGADOR
             player1=0;player2=0;
             jButton1.setEnabled(false);
             jButton2.setEnabled(false);
             jButton3.setVisible(true);
-             return puntos[5]+"2";
+             //return puntos[5]+"2";
+            return idioma.getWin()+" 2";
         }
         else
-            return puntos[player1]+" - "+puntos[player2];
+            return idioma.getPuntos(player1)+" - "+idioma.getPuntos(player2);
+            //return puntos[player1]+" - "+puntos[player2];
+            
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -36,7 +36,7 @@ public class marcador_java extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("LOVE - ALL");
+        jLabel1.setText(score());
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("Player 1");
@@ -56,7 +56,7 @@ public class marcador_java extends javax.swing.JFrame {
         });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton3.setText("Recet");
+        jButton3.setText("Reset");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -68,33 +68,33 @@ public class marcador_java extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(63, 63, 63)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addGap(81, 81, 81))
+                .addGap(72, 72, 72))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
+                        .addGap(83, 83, 83)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
+                        .addGap(162, 162, 162)
                         .addComponent(jButton3)))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(118, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,7 +115,7 @@ public class marcador_java extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         player1=0;
         player2=0;
-        jLabel1.setText("LOVE - ALL");
+        jLabel1.setText(score());
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setVisible(false);
@@ -125,7 +125,7 @@ public class marcador_java extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
-    String puntos[]={"LOVE","FIFTEEN","THIRTY","FOURTY","ADVANTAGE"};
+    String puntos[]={/*"LOVE","FIFTEEN","THIRTY","FOURTY","ADVANTAGE  PLAYER",*/"CERO","QUINCE","TREINTA","CUARENTA","VENTAJA JUGADOR","GANA JUGADOR"};
     int player1=0,player2=0;
     
     public static void main(String args[]) {
@@ -169,47 +169,32 @@ public class marcador_java extends javax.swing.JFrame {
         }
     }
     public String score(){
-        if(player1==2 && player2 == 2){
-            return puntos[player1]+" - ALL";
+        if(player1<3 && player1==player2){
+            return puntos[player1]+" - IGUALES";
         }
-        if(player1==3 && player2 == 3){
-            return "DOUCE";
+        if(player1>2 && player1==player2){ //40-40 VETAJA - VETAJA
+            player1=3;player2=3;
+            return "EMPATE";
         }
         if(player1==4 && player2 == 3){
-            return puntos[player1]+" PLAYER 1";
+            return puntos[player1]+" 1"; //VENTAJA JUGADOR
         }
         if(player1==3 && player2 == 4){
-            return puntos[player2]+" PLAYER 2";
+            return puntos[player2]+" 2"; //VENTAJA JUGADOR
         }
-        if(player1==4 && player2 == 4){
-            player1=3;player2=3;
-            return "DOUCE";
-        }
-        if(player1==5){
+        if(player1==5 || player1==4 && player2 <3){ //GANA JUGADOR
             player1=0;player2=0;
             jButton1.setEnabled(false);
             jButton2.setEnabled(false);
             jButton3.setVisible(true);
-             return "PLAYER 1 WINS";
+             return puntos[5]+"1";
         }
-        if(player2==5){
+        if(player2==5 || player1<3 && player2 ==4){ //GANA JUGADOR
             player1=0;player2=0;
             jButton1.setEnabled(false);
             jButton2.setEnabled(false);
             jButton3.setVisible(true);
-             return "PLAYER 2 WINS";
-        }
-        if(player1==4 && player2 <3){
-            jButton1.setEnabled(false);
-            jButton2.setEnabled(false);
-            jButton3.setVisible(true);
-            return "PLAYER 1 WINS";
-        }
-        if(player1<3 && player2 ==4){
-            jButton1.setEnabled(false);
-            jButton2.setEnabled(false);
-            jButton3.setVisible(true);
-            return "PLAYER 2 WINS";
+             return puntos[5]+"2";
         }
         else
             return puntos[player1]+" - "+puntos[player2];

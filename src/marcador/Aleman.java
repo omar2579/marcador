@@ -8,22 +8,24 @@ package marcador;
  *
  * @author Omar
  */
-public class English implements Idioma {
+public class Aleman implements Idioma{
     
     public String getPuntos(int puntos){
-        String palabras[]={"LOVE","FIFTEEN","THIRTY","FORTY"};
+        String palabras[]={"LIEBE","FÜNZEHN","DREBIG","VIERZING"};
         return palabras[puntos];
     }
     public String getDeuce(){
-        return "DEUCE";
+        return "ZIEHEN";
     }
     public String getAll(){
-        return "ALL";
+        return "ALLE";
     }
     public String getAdvantage(){
-        return "ADVANTAGE PLAYER ";
+        return "SPIELER BEWEGT SICH ";
     }
     public String getWin(){
-        return "WINS PLAYER ";
+        return "SPIELER GEWINNT ";
     }
+
+    
 }

@@ -4,6 +4,8 @@
  */
 package marcador;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Omar
@@ -16,6 +18,8 @@ public class marcador_java extends javax.swing.JFrame {
     public marcador_java() {
         initComponents();
         jButton3.setVisible(false);
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(4);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(4);
     }
     
     /**
@@ -32,11 +36,18 @@ public class marcador_java extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("<html><center>...<br>");
+        jLabel1.setToolTipText("");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel1.setAutoscrolls(true);
+        jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("Player 1");
@@ -65,12 +76,35 @@ public class marcador_java extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "English", "Español", "français" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "English", "Español", "français", "Aleman" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Jugador 1", "Jugador 2", "Puntaje"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,6 +127,10 @@ public class marcador_java extends javax.swing.JFrame {
                         .addGap(162, 162, 162)
                         .addComponent(jButton3)))
                 .addContainerGap(105, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,8 +143,10 @@ public class marcador_java extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addGap(31, 31, 31)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -114,37 +154,55 @@ public class marcador_java extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         point(1);
-        jLabel1.setText(score());
+        imprimirTabla();
+        /*jLabel1.setText(jLabel1.getText()+"<br>"+score());
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.addRow(new Object[]{player1,player2,score()});*/
+                
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         point(2);
-        jLabel1.setText(score());
+        imprimirTabla();
+        /*jLabel1.setText(jLabel1.getText()+"<br>"+score());
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.addRow(new Object[]{player1,player2,score()});*/
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         player1=0;
         player2=0;
-        jLabel1.setText(score());
-        //jLabel1.setText(español.getDeuce());
+        jLabel1.setText("<html><center>"+score());
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setVisible(false);
+        borrarTabla(0);
+        imprimirTabla();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        if(jComboBox1.getSelectedIndex()==0)
-            idioma = new English();
-        if(jComboBox1.getSelectedIndex()==1)
-            idioma = new Espanol();
-        if(jComboBox1.getSelectedIndex()==2)
-            idioma = new Francais();
-        jLabel1.setText(score());
+        switch(jComboBox1.getSelectedIndex()){
+            case 0: idioma = new English();
+                break;
+            case 1: idioma = new Espanol();
+                break;
+            case 2: idioma = new Francais();
+                break;
+            case 3: idioma = new Aleman();
+                break;
+        }
+        imprimirTabla();
         jButton2.setEnabled(true);
         jButton1.setEnabled(true);
-        //jComboBox1.setEnabled(false);
-        // TODO add your handling code here:
+        jComboBox1.setVisible(false);
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+        player1 = (int) jTable1.getValueAt(row, 0);
+        player2 = (int) jTable1.getValueAt(row, 1);
+        borrarTabla(row+1);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -195,49 +253,52 @@ public class marcador_java extends javax.swing.JFrame {
     }
     public String score(){
         if(player1<3 && player1==player2){
-            //return puntos[player1]+" - IGUALES";
             return idioma.getPuntos(player1)+" - "+idioma.getAll();
         }
         if(player1>2 && player1==player2){ //40-40 VETAJA - VETAJA
             player1=3;player2=3;
-            //return "EMPATE";
             return idioma.getDeuce();
         }
-        if(player1==4 && player2 == 3){
-            //return puntos[player1]+" 1"; //VENTAJA JUGADOR
+        if(player1==4 && player2 == 3){//VENTAJA JUGADOR
             return idioma.getAdvantage()+" 1";
         }
-        if(player1==3 && player2 == 4){
-            //return puntos[player2]+" 2"; //VENTAJA JUGADOR
+        if(player1==3 && player2 == 4){//VENTAJA JUGADOR
             return idioma.getAdvantage()+" 2";
         }
         if(player1==5 || player1==4 && player2 <3){ //GANA JUGADOR
-            player1=0;player2=0;
-            jButton1.setEnabled(false);
-            jButton2.setEnabled(false);
-            jButton3.setVisible(true);
-             //return puntos[5]+"1";
+            preparaReset();
             return idioma.getWin()+" 1";
         }
         if(player2==5 || player1<3 && player2 ==4){ //GANA JUGADOR
-            player1=0;player2=0;
-            jButton1.setEnabled(false);
-            jButton2.setEnabled(false);
-            jButton3.setVisible(true);
-             //return puntos[5]+"2";
+            preparaReset();
             return idioma.getWin()+" 2";
         }
-        else
+        else    
             return idioma.getPuntos(player1)+" - "+idioma.getPuntos(player2);
-            //return puntos[player1]+" - "+puntos[player2];
             
     }
-    
+    void preparaReset(){
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(false);
+        jButton3.setVisible(true);
+    }
+    void imprimirTabla(){
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.addRow(new Object[]{player1,player2,score()});
+    }
+    void borrarTabla(int row){
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        while (row < modelo.getRowCount()){
+            modelo.removeRow(row);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
